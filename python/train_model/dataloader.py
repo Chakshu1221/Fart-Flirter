@@ -12,10 +12,10 @@ BASE_DIR = "python/train_model/data"
 FART_DIR = os.path.join(BASE_DIR, "fart")
 NON_FART_DIR = os.path.join(BASE_DIR, "non_fart")
 
-FART_QUERY = "fart OR whoopee cushion"
-NON_FART_QUERY = "speech OR talking OR noise OR clap"
+FART_QUERY = "fart"
+NON_FART_QUERY = "noise"
 
-NUM_FART = 100
+NUM_FART = 0
 NUM_NON_FART = 100
 
 # =========================
