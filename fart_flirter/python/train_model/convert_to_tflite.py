@@ -15,12 +15,12 @@ import tensorflow as tf
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-ROOT_DIR = SCRIPT_DIR.parents[1]  # /workspaces/Fart-Flirter/fart_flirter
-REPO_ROOT = ROOT_DIR.parent  # /workspaces/Fart-Flirter
+PROJECT_DIR = SCRIPT_DIR.parents[1]  # /workspaces/Fart-Flirter/fart_flirter
+REPO_ROOT = PROJECT_DIR.parent  # /workspaces/Fart-Flirter
 
-KERAS_MODEL = REPO_ROOT / "saved_model" / "fart_model.keras"
-TFLITE_OUT = ROOT_DIR / "assets" / "models" / "fart_classifier.tflite"
-PROCESSED_DIR = ROOT_DIR / "python" / "train_model" / "processed"
+KERAS_MODEL = REPO_ROOT / "saved_model" / "fart_model.keras"   # root model path
+TFLITE_OUT = REPO_ROOT / "assets" / "models" / "fart_classifier.tflite"  # root output path
+PROCESSED_DIR = REPO_ROOT / "processed"
 
 
 def representative_dataset():

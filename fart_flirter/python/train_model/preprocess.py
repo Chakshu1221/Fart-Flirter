@@ -28,8 +28,11 @@ NUM_MFCC      = 40
 NUM_FRAMES    = 128
 HOP_LENGTH    = int(SAMPLE_RATE * DURATION / NUM_FRAMES)   # ≈ 1723 for 5s
 N_FFT         = 512
-DATA_DIR      = Path("data")
-OUT_DIR       = Path("processed")
+# All paths are anchored to repo root (Fart-Flirter)
+SCRIPT_DIR    = Path(__file__).resolve().parent
+REPO_ROOT     = SCRIPT_DIR.parents[2]   # /workspaces/Fart-Flirter
+DATA_DIR      = REPO_ROOT / "data"
+OUT_DIR       = REPO_ROOT / "processed"
 VAL_SPLIT     = 0.2
 RANDOM_SEED   = 42
 
@@ -93,8 +96,12 @@ def main():
     X, y = build_dataset()
     print(f"  Total samples: {len(X)}  |  Shape: {X.shape}")
 
+    split = VAL_SPLIT
+    if len(X) < 10:
+        split = 0.5
+
     X_train, X_val, y_train, y_val = train_test_split(
-        X, y, test_size=VAL_SPLIT, random_state=RANDOM_SEED, stratify=y
+        X, y, test_size=split, random_state=RANDOM_SEED, stratify=y if len(np.unique(y)) > 1 else None
     )
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
