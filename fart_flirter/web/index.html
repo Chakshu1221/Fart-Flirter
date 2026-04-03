@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Fart Flirter Analyzer">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Fart Flirter">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Fart Flirter Analyzer</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    body {
+      background-color: #0A0A0F;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // Ensure mic permission policy is set
+    if (navigator.permissions) {
+      navigator.permissions.query({ name: 'microphone' }).then(function(result) {
+        console.log('Mic permission status:', result.state);
+      });
+    }
+  </script>
+
+  <!-- This script installs a service worker to make this a PWA -->
+  <script>
+    var serviceWorkerVersion = null;
+    var scriptLoaded = false;
+    function loadMainDartJs() {
+      if (scriptLoaded) { return; }
+      scriptLoaded = true;
+      var scriptTag = document.createElement('script');
+      scriptTag.src = 'main.dart.js';
+      scriptTag.type = 'application/javascript';
+      document.body.append(scriptTag);
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+        navigator.serviceWorker.register(serviceWorkerUrl).then(function (reg) {
+          function waitForActivation(serviceWorker) {
+            serviceWorker.addEventListener('statechange', function () {
+              if (serviceWorker.state == 'activated') { loadMainDartJs(); }
+            });
+          }
+          if (!reg.active && (reg.installing || reg.waiting)) {
+            waitForActivation(reg.installing ?? reg.waiting);
+          } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+            reg.update();
+            waitForActivation(reg.installing);
+          } else { loadMainDartJs(); }
+        });
+        setTimeout(loadMainDartJs, 4000);
+      });
+    } else { loadMainDartJs(); }
+  </script>
+</body>
+</html>
