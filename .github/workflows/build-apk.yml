@@ -19,19 +19,14 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Set up Android SDK
-      uses: android-actions/setup-android@v3
-
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.41.6'  # Match local version
+        flutter-version: '3.27.4'
         channel: 'stable'
 
     - name: Accept Android licenses
-      run: |
-        yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
-        yes | flutter doctor --android-licenses
+      run: yes | flutter doctor --android-licenses
 
     - name: Check Flutter setup
       run: flutter doctor -v
@@ -45,5 +40,5 @@ jobs:
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
-        name: fart-flirter-apk
+        name: snap-receipts-apk
         path: build/app/outputs/flutter-apk/app-release.apk
