@@ -23,6 +23,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.1
 
 flutter:
   uses-material-design: true
@@ -30,3 +32,24 @@ flutter:
   assets:
     - assets/models/fart_classifier.tflite
     - assets/models/labels.txt
+
+# App icon configuration
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/icon/fart_icon.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/icon/fart_icon.png"
+    background_color: "#ffffff"
+    theme_color: "#ffffff"
+
+# Splash screen configuration
+flutter_native_splash:
+  color: "#FFFF00"  # Yellow background
+  image: assets/icon/fart_icon.png
+  android_12:
+    image: assets/icon/fart_icon.png
+    color: "#FFFF00"
+  web: false  # We'll handle web splash separately

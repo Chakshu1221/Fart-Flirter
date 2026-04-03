@@ -19,14 +19,19 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.22.0'  # Use stable version
+        flutter-version: '3.41.6'  # Match local version
         channel: 'stable'
 
     - name: Accept Android licenses
-      run: flutter doctor --android-licenses
+      run: |
+        yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
+        yes | flutter doctor --android-licenses
 
     - name: Check Flutter setup
       run: flutter doctor -v
