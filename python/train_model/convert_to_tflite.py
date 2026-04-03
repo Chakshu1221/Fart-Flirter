@@ -15,10 +15,22 @@ import tensorflow as tf
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-PROJECT_DIR = SCRIPT_DIR.parents[1]  # /workspaces/Fart-Flirter/fart_flirter
-REPO_ROOT = PROJECT_DIR.parent  # /workspaces/Fart-Flirter
+REPO_ROOT = SCRIPT_DIR.parents[1]  # /workspaces/Fart-Flirter
 
-KERAS_MODEL = REPO_ROOT / "saved_model" / "fart_model.keras"   # root model path
+# Support both repo and legacy nested path arrangements
+Keras_candidates = [
+    REPO_ROOT / "saved_model" / "fart_model.keras",
+    REPO_ROOT / "python" / "train_model" / "saved_model" / "fart_model.keras",
+]
+KERAS_MODEL = next((p for p in Keras_candidates if p.exists()), Keras_candidates[0])
+if not KERAS_MODEL.exists():
+    raise FileNotFoundError(
+        f"Could not find Keras model file in expected locations:\n"
+        f"  1) {Keras_candidates[0]}\n"
+        f"  2) {Keras_candidates[1]}\n"
+        f"Run training first: python python/train_model/train.py"
+    )
+
 TFLITE_OUT = REPO_ROOT / "assets" / "models" / "fart_classifier.tflite"  # root output path
 PROCESSED_DIR = REPO_ROOT / "processed"
 

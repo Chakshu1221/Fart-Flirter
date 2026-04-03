@@ -30,8 +30,12 @@ HOP_LENGTH    = int(SAMPLE_RATE * DURATION / NUM_FRAMES)   # ≈ 1723 for 5s
 N_FFT         = 512
 # All paths are anchored to repo root (Fart-Flirter)
 SCRIPT_DIR    = Path(__file__).resolve().parent
-REPO_ROOT     = SCRIPT_DIR.parents[2]   # /workspaces/Fart-Flirter
-DATA_DIR      = REPO_ROOT / "data"
+REPO_ROOT     = SCRIPT_DIR.parents[1]   # /workspaces/Fart-Flirter
+DATA_DIR      = REPO_ROOT / "python" / "train_model" / "data"
+if not DATA_DIR.exists():
+    # fallback: root-level data/ for future layout
+    DATA_DIR = REPO_ROOT / "data"
+    print(f"⚠️  DATA_DIR fallback to {DATA_DIR}")
 OUT_DIR       = REPO_ROOT / "processed"
 VAL_SPLIT     = 0.2
 RANDOM_SEED   = 42
